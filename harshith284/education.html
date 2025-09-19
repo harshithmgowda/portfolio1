@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education | Harshith Gowda M</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-red: #E50914;
+            --primary-red-dark: #B20710;
+            --mouse-x: 50vw;
+            --mouse-y: 50vh;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(120, 80, 220, 0.15), transparent 80%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-red); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-red-dark); }
+
+        .primary-red { color: var(--primary-red); }
+        
+        #header.scrolled {
+            background-color: #000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-link { position: relative; transition: color 0.3s ease; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-red);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover, .nav-link.active { color: white; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease-out;
+            transform-style: preserve-3d;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(170, 130, 255, 0.5);
+            box-shadow: 0 0 25px rgba(170, 130, 255, 0.4);
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        #preloader {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #0a0a0a; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .loader-text { font-size: 2rem; font-weight: 600; color: #fff; animation: pulse 1.5s infinite; }
+        .loader-bracket { color: var(--primary-red); }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .social-icon { transition: all 0.3s ease; }
+        .social-icon:hover { text-shadow: 0 0 15px var(--primary-red); color: var(--primary-red); }
+
+        /* --- Timeline Styles --- */
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            bottom: 20px;
+            width: 3px;
+            background-color: #333;
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 24px;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            border: 3px solid var(--primary-red);
+            z-index: 1;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 24px;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 2px;
+            background-image: linear-gradient(to right, #555 50%, transparent 50%);
+            background-size: 8px 2px;
+            z-index: 0;
+        }
+
+        /* NEW: Raining Code Canvas Style */
+        #raining-code-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; /* Sits between the overlay and the text */
+        }
+    </style>
+</head>
+<body class="bg-black">
+    
+    <div id="preloader">
+        <div class="loader-text">
+            <span class="loader-bracket">&lt;</span> HG <span class="loader-bracket">/&gt;</span>
+        </div>
+    </div>
+
+    <header id="header" class="bg-black/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html#home" class="text-xl font-semibold hover:text-primary-red transition-colors duration-300">
+                <span class="primary-red">&lt;</span>HarshithGowdaM <span class="primary-red">/&gt;</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="index.html#home" class="nav-link text-sm">Home</a>
+                <a href="index.html#about" class="nav-link text-sm">About</a>
+                <a href="index.html#skills" class="nav-link text-sm">Skills</a>
+                <a href="education.html" class="nav-link text-sm active">Education</a>
+                <a href="index.html#contact" class="nav-link text-sm">Contact</a>
+            </nav>
+            <button id="mobile-menu-btn" class="md:hidden text-2xl z-50"><i class="fas fa-bars"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-0 left-0 w-full h-screen bg-black/95">
+            <nav class="flex flex-col items-center justify-center h-full space-y-8">
+                <a href="index.html#home" class="nav-link text-lg">Home</a>
+                <a href="index.html#about" class="nav-link text-lg">About</a>
+                <a href="index.html#skills" class="nav-link text-lg">Skills</a>
+                <a href="education.html" class="nav-link text-lg">Education</a>
+                <a href="index.html#contact" class="nav-link text-lg">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="education-banner" class="relative h-[50vh] flex items-center justify-center text-white bg-cover bg-center" style="background-image: url('https://jssstuniv.in/assets/img/jssstu-2.jpg');">
+            <div class="absolute inset-0 bg-black/60 z-1"></div>
+            <canvas id="raining-code-canvas"></canvas>
+            <div class="relative z-10 text-center p-6">
+                <h1 class="text-4xl md:text-6xl font-bold" style="color: #c9a6ff;">Educational Background</h1>
+                <p class="mt-4 text-lg md:text-xl italic text-gray-300">"An investment in knowledge pays the best interest." – Benjamin Franklin</p>
+            </div>
+        </section>
+
+        <section id="education-timeline" class="py-20 md:py-28 bg-[#111]">
+            <div class="container mx-auto px-6">
+                <div class="timeline max-w-4xl mx-auto">
+
+                    <div class="timeline-item">
+                        <div class="glass-card p-6 md:p-8">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <img src="college-main.jpg" alt="SJCE College Photo" class="w-full md:w-1/3 h-auto rounded-lg shadow-lg object-cover">
+                                <div class="w-full md:w-2/3">
+                                    <p class="text-sm primary-red font-medium mb-1">2024 — 2028</p>
+                                    <h3 class="text-2xl font-semibold text-white mb-2">Bachelor of Engineering, CSE</h3>
+                                    <p class="text-lg text-gray-300">Sri Jayachamarajendra College of Engineering (SJCE), JSS STU, Mysuru</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="glass-card p-6 md:p-8">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <img src="college-2.jpg" alt="Shanthinikethan PU College Photo" class="w-full md:w-1/3 h-auto rounded-lg shadow-lg object-cover">
+                                <div class="w-full md:w-2/3">
+                                    <p class="text-sm primary-red font-medium mb-1">YEAR — YEAR</p>
+                                    <h3 class="text-2xl font-semibold text-white mb-2">Pre-University Education</h3>
+                                    <p class="text-lg text-gray-300">Shanthinikethan PU College, Ramanagara</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="glass-card p-6 md:p-8">
+                            <div class="flex flex-col md:flex-row items-center gap-6">
+                                <img src="college-3.jpg" alt="BGS Public School Photo" class="w-full md:w-1/3 h-auto rounded-lg shadow-lg object-cover">
+                                <div class="w-full md:w-2/3">
+                                    <p class="text-sm primary-red font-medium mb-1">YEAR — YEAR</p>
+                                    <h3 class="text-2xl font-semibold text-white mb-2">Primary School Education</h3>
+                                    <p class="text-lg text-gray-300">BGS Public School, Bidadi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-10">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <div class="mb-6 flex justify-center space-x-8">
+                <a href="https://github.com/YourGitHubUsername" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl text-gray-400 hover:scale-125 transition-all duration-300"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/harshith-gowda-m-391205332/" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl text-gray-400 hover:scale-125 transition-all duration-300"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/harshith.gowda_m284/?__pwa=1" target="_blank" rel="noopener noreferrer" class="social-icon text-3xl text-gray-400 hover:scale-125 transition-all duration-300"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="text-sm text-gray-500">&copy; 2024 Harshith Gowda M. Designed with <i class="fas fa-heart primary-red"></i> and code.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+        });
+
+        // Interactive Cursor Glow
+        window.addEventListener('mousemove', e => {
+            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = mobileMenuBtn.querySelector('i');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuIcon.classList.toggle('fa-bars', mobileMenu.classList.contains('hidden'));
+            mobileMenuIcon.classList.toggle('fa-times', !mobileMenu.classList.contains('hidden'));
+        });
+
+        // --- NEW: Raining Code Animation ---
+        const canvas = document.getElementById('raining-code-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            const banner = document.getElementById('education-banner');
+            
+            let animationFrameId;
+            const fontSize = 16;
+            let columns;
+            const drops = [];
+            const codeChars = "01<>/{}[]+=-*()&^%$#@!~";
+            const chars = codeChars.split('');
+
+            function setupAndResize() {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = banner.clientWidth * dpr;
+                canvas.height = banner.clientHeight * dpr;
+                canvas.style.width = banner.clientWidth + 'px';
+                canvas.style.height = banner.clientHeight + 'px';
+                ctx.scale(dpr, dpr);
+                columns = Math.floor(banner.clientWidth / fontSize);
+                drops.length = 0;
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = 1;
+                }
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, banner.clientWidth, banner.clientHeight);
+                const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-red').trim() || '#E50914';
+                const highlightColor = '#ffffff';
+                ctx.font = fontSize + 'px IBM Plex Mono';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.shadowBlur = 0;
+                    if (drops[i] === 1 && Math.random() > 0.985) {
+                        ctx.fillStyle = highlightColor;
+                        ctx.shadowColor = highlightColor;
+                        ctx.shadowBlur = 10;
+                    } else {
+                        ctx.fillStyle = primaryColor;
+                    }
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > banner.clientHeight && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            function animate() {
+                draw();
+                animationFrameId = requestAnimationFrame(animate);
+            }
+            
+            const preloader = document.getElementById('preloader');
+            const preloaderObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === "style" && preloader.style.display === 'none') {
+                        setupAndResize();
+                        animate();
+                        preloaderObserver.disconnect();
+                    }
+                });
+            });
+            preloaderObserver.observe(preloader, { attributes: true });
+
+            window.addEventListener('resize', () => {
+                setupAndResize();
+            });
+        }
+    </script>
+</body>
+</html>
